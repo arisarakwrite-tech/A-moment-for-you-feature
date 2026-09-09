@@ -1,0 +1,11 @@
+{
+  "title": "A moment for you feature",
+  "description": "Provides a mobile-first, visually precise meditation home screen with interactive activities and fixed navigation for seamless user engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
