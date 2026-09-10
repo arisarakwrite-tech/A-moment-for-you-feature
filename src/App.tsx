@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BreathingScreen from "./BreathingScreen";
+import { EmotionCheckInScreen, EmotionResultScreen, type Emotion } from "./EmotionScreens";
 import svgPaths from "./imports/HomeHiFi/svg-6ilehz0p7y";
 import imgRectangle from "./imports/HomeHiFi/76c82f706d611aa4e100f686f1cdec96e863c8e2.png";
 import imgGrief from "./imports/HomeHiFi/ca849184db7da29b19c385cb4e6098e8c794fc83.png";
@@ -516,16 +517,37 @@ function StatusBar() {
 
 export default function App() {
   const [activeActivity, setActiveActivity] = useState(0);
-  const [screen, setScreen] = useState<"home" | "breathe">("home");
+  const [screen, setScreen] = useState<"home" | "breathe" | "emotion-checkin" | "emotion-result">("home");
+  const [selectedEmotion, setSelectedEmotion] = useState<Emotion | null>(null);
 
   const handleStartActivity = (i: number) => {
     if (i === 0) setScreen("breathe");
+    if (i === 1) setScreen("emotion-checkin");
   };
 
   if (screen === "breathe") {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-200">
         <BreathingScreen onClose={() => setScreen("home")} />
+      </div>
+    );
+  }
+
+  if (screen === "emotion-checkin") {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-200">
+        <EmotionCheckInScreen
+          onBack={() => setScreen("home")}
+          onSet={(em) => { setSelectedEmotion(em); setScreen("emotion-result"); }}
+        />
+      </div>
+    );
+  }
+
+  if (screen === "emotion-result" && selectedEmotion) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-200">
+        <EmotionResultScreen emotion={selectedEmotion} onDone={() => setScreen("home")} />
       </div>
     );
   }
